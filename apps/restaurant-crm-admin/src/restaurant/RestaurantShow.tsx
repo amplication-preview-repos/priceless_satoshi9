@@ -1,0 +1,84 @@
+import * as React from "react";
+
+import {
+  Show,
+  SimpleShowLayout,
+  ShowProps,
+  TextField,
+  DateField,
+  ReferenceManyField,
+  Datagrid,
+  ReferenceField,
+} from "react-admin";
+
+import { CLIENT_TITLE_FIELD } from "../client/ClientTitle";
+import { RESTAURANT_TITLE_FIELD } from "./RestaurantTitle";
+import { TABLE_TITLE_FIELD } from "../table/TableTitle";
+
+export const RestaurantShow = (props: ShowProps): React.ReactElement => {
+  return (
+    <Show {...props}>
+      <SimpleShowLayout>
+        <TextField label="address" source="address" />
+        <DateField source="createdAt" label="Created At" />
+        <TextField label="email" source="email" />
+        <TextField label="ID" source="id" />
+        <TextField label="name" source="name" />
+        <TextField label="phone" source="phone" />
+        <DateField source="updatedAt" label="Updated At" />
+        <ReferenceManyField
+          reference="Reservation"
+          target="restaurantId"
+          label="Reservations"
+        >
+          <Datagrid rowClick="show">
+            <ReferenceField
+              label="Client"
+              source="client.id"
+              reference="Client"
+            >
+              <TextField source={CLIENT_TITLE_FIELD} />
+            </ReferenceField>
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="date" source="date" />
+            <TextField label="ID" source="id" />
+            <TextField label="numberOfGuests" source="numberOfGuests" />
+            <ReferenceField
+              label="Restaurant"
+              source="restaurant.id"
+              reference="Restaurant"
+            >
+              <TextField source={RESTAURANT_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="specialRequests" source="specialRequests" />
+            <ReferenceField label="Table" source="table.id" reference="Table">
+              <TextField source={TABLE_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="time" source="time" />
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+        <ReferenceManyField
+          reference="Table"
+          target="restaurantId"
+          label="Tables"
+        >
+          <Datagrid rowClick="show">
+            <DateField source="createdAt" label="Created At" />
+            <TextField label="ID" source="id" />
+            <TextField label="number" source="numberField" />
+            <ReferenceField
+              label="Restaurant"
+              source="restaurant.id"
+              reference="Restaurant"
+            >
+              <TextField source={RESTAURANT_TITLE_FIELD} />
+            </ReferenceField>
+            <TextField label="seats" source="seats" />
+            <DateField source="updatedAt" label="Updated At" />
+          </Datagrid>
+        </ReferenceManyField>
+      </SimpleShowLayout>
+    </Show>
+  );
+};
